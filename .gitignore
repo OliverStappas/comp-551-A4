@@ -1,1 +1,8 @@
 *.pt
+venv
+results/logs
+models
+test_results
+*.csv
+tools
+**/__pycache__/
