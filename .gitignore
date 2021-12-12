@@ -6,3 +6,9 @@ test_results
 *.csv
 **/__pycache__/
 *.pdf
+influence_functions/h_inverses
+influence_functions/hessians
+influence_functions/influences
+influence_functions/train_grad
+influence_functions/test_grad
+influence_functions/mask

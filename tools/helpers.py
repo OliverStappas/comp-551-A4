@@ -115,6 +115,44 @@ def re_init_and_freeze_blocks(model, var_dict):
         elif 'fc.bias'   in name: nn.init.constant_(param, 0.0)
   return model
 
+def make_mask(num_training_images, train_set):
+  dataset_size = len(train_set)
+  mask = np.ones(dataset_size)
+
+  if num_training_images != -1:
+    mask = np.zeros(dataset_size)
+    shuffled_ix_list = [x for x in range(dataset_size)]
+    random.shuffle(shuffled_ix_list)
+    #print()
+    if 'train_labels' in dir(train_set):
+      remaining_classes_set = set(train_set.train_labels.tolist())
+    elif 'labels' in dir(train_set):
+      remaining_classes_set = set(train_set.labels)
+    else:
+      remaining_classes_set = set(train_set.targets)
+
+
+    remaining_choices = num_training_images
+    for ix in shuffled_ix_list:
+      label = train_set[ix][1]
+      if remaining_choices > len(remaining_classes_set) or label in remaining_classes_set:
+        mask[ix] += 1
+        remaining_choices -= 1
+        if label in remaining_classes_set: 
+          remaining_classes_set.remove(label)
+      if remaining_choices <= 0: 
+        break
+
+    # check
+    if sum(mask) != num_training_images:
+      print(f"ERROR: the mask has {sum(mask)} images but it should have {num_training_images} images") 
+    if len(remaining_classes_set) > 0:
+      print(f"ERROR: we're missing classes: {remaining_classes_set}") 
+  print('made the mask')
+  mask = np.nonzero(mask)[0]
+  mask_sampler = ch.utils.data.sampler.SubsetRandomSampler(mask)
+  return mask_sampler
+
 def make_out_store(var_dict):
 
   out_dir = (os.getcwd()+ '/results/logs/'
@@ -209,6 +247,7 @@ def get_runtime_inputs_for_influence_functions():
 def load_gradients(ds, eps, ub=3, num_images=3200, train_or_test='train'):
     os.chdir(f'{train_or_test}_grad/{ds}_{eps}_eps_{ub}_ub_{num_images}_images')
     files = os.listdir()
+    gradients = None
     for i, f in enumerate(files):
         if i == 0: gradients = np.load(f)
         else:      gradients = np.vstack((gradients, np.load(f)))
