@@ -9,7 +9,6 @@ influence_functions/mask
 results/logs
 models
 test_results
-*.csv
 **/__pycache__/
 *.pdf
 data
