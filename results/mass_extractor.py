@@ -17,11 +17,14 @@ os.chdir("logs")
 df = pd.DataFrame()
 folder_list = list(os.listdir())
 
+print(folder_list)
+
 for folder in folder_list:
     os.chdir(folder)
     try:
         reader = CollectionReader(os.getcwd())
         new_df = reader.df("logs")
+
 
     except:
         pass
