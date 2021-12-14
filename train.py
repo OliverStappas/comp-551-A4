@@ -43,12 +43,12 @@ if __name__ == "__main__":
     if var_dict["target_dataset_name"] == "celeba":
         train_set = CelebA(
             "./data",
-            transform=tools.transforms.TRAIN_TRANSFORMS_DOWNSCALE(32,224),
+            transform=tools.transforms.TRAIN_TRANSFORMS_DEFAULT(224)
         )
         test_set = CelebA(
             "./data",
             split="valid",
-            transform=tools.transforms.TEST_TRANSFORMS_DOWNSCALE(32,224),
+            transform=tools.transforms.TEST_TRANSFORMS_DEFAULT(224),
         )
         train_sample_count = len(train_set)
         rng = np.random.RandomState(var_dict["seed"])
