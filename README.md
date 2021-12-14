@@ -58,18 +58,18 @@ transform=tools.transforms.TRAIN_TRANSFORMS_DOWNSCALE(32,224))`
 ### **Sixth  Experiment**
 
 This requires having existing models trained on eps 3 and 0 for 100 images and 3 blocks on cifar10\
-In hessian.py and in make_grads.py, replace 3: ... and 0: ... with your path to those models
+In hessian.py and in make_grads.py, replace 3: ... and 0: ... with your path to those models\
 
 Then, from the inlfuence_functions path run the commands\
-` python ./hessian.py -e 0 -ds cifar10`
-` python ./hessian.py -e 3 -ds cifar10`
+` python ./hessian.py -e 0 -ds cifar10`\
+` python ./hessian.py -e 3 -ds cifar10`\
 
 Then,\
-` python ./make_grads.py -e 0 -ds cifar10`
-` python ./make_grads.py -e 3 -ds cifar10`
+` python ./make_grads.py -e 0 -ds cifar10`\
+` python ./make_grads.py -e 3 -ds cifar10`\
 
 Then,\
-` python ./make_influences.py -e 0 -ds cifar10`
-` python ./make_influences.py -e 3 -ds cifar10`
+` python ./make_influences.py -e 0 -ds cifar10`\
+` python ./make_influences.py -e 3 -ds cifar10`\
 
 You may then proceed with running the visualizing influence functions.ipynb notebook to get the influence function results
